@@ -9,22 +9,25 @@ import time
 # Load data from LP_Test.mat
 data = scipy.io.loadmat('LP_Test.mat')
 
-U_d = data['U'].flatten()   # Bid prices
+U_d = data['U'].flatten().astype('float64')   # Bid prices
+print("U_d type", type(U_d))
 print("U_d", U_d)
-#U_d = U_d + 100
+
 C_g = data['C'].flatten()   # Offer proces
 print("C_g", C_g)
+
 P_d_max = data['Pd_max'].flatten()  # Maximum loads
 P_g_max = data['Pg_max'].flatten()  # Capacities
 
 n_d = len(U_d)  # Number of demands
 n_g = len(C_g)  # Number of generators
 
-g = np.concatenate([-U_d, C_g])  
+g = np.concatenate((-U_d, C_g))  
+print("Here are g", g)
+print("g:type",type(g[0],))
 bounds = [(0, P_d_max[i]) for i in range(n_d)] + [(0, P_g_max[i]) for i in range(n_g)]
-#bounds = [(1e-5, P_d_max[i]) for i in range(n_d)] + [(1e-5, P_g_max[i]) for i in range(n_g)]
-print("bounds", bounds)
 A = np.concatenate([np.ones(n_d), -np.ones(n_g)]).reshape(1, n_d + n_g) # Stored as row vector --> no need for transpose
+
 b = np.array([0])
 
 # Solve using linprog
@@ -36,10 +39,11 @@ stop_time = time.time()
 x_opt = result.x
 p_d_opt = x_opt[:n_d]
 p_g_opt = x_opt[n_d:]
-market_clearing_price = result.eqlin.marginals[0]  # Dual variable (Lagrange multiplier)
+market_clearing_price = -result.eqlin.marginals[0]  # Dual variable (Lagrange multiplier). Minus because we flipped sign of g
 
 print("Optimal demand:", p_d_opt)
 print("Optimal generation:", p_g_opt)
+print("Solution:", x_opt)
 print("Market clearing price:", market_clearing_price)
 print("Objective value:", -result.fun)  # flip sign back to maximize welfare
 
