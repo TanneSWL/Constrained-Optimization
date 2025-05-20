@@ -10,8 +10,6 @@ from scipy.sparse import csc_matrix, csr_matrix, dia_matrix
 import casadi as ca
 from casadi import *
 import matplotlib.pyplot as plt
-import cvxopt as cvx
-from cvxopt import cholmod
 import time
 
 #==============================================================
