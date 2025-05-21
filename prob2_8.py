@@ -314,7 +314,7 @@ plt.yscale('log')
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig("figures/2-8_Residuals.png")
+#plt.savefig("figures/2_8_Residuals.png")
 plt.show()
 
 print("Number of Iterations:", iter)

@@ -283,7 +283,7 @@ plt.title('Euclidean Distance from Solution as a Function of n')
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig("figures/1-5_Error.png")
+plt.savefig("figures/1_5_Error.png")
 #plt.show() #If you want the figure to pop up
 
 #==============================================================
@@ -326,7 +326,7 @@ plt.title('Average CPU Time per Solver as Function of n')
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig("figures/1-5_Time-CPU.png")
+plt.savefig("figures/1_5_Time-CPU.png")
 #plt.show() #If you want the figure to pop up
 
 #==============================================================
@@ -436,7 +436,7 @@ df = pd.DataFrame({
     'Euclidean_Distance': EucDistVec # This is the Euclidean distance between CasADi's solution and ours
 })
 # Save to CSV
-df.to_csv('figures/1-6_Solution-Comparison.csv')
+df.to_csv('figures/1_6_Solution-Comparison.csv')
 
 #==============================================================
 # 1.6 Part 3: x_i as a Function of b_1
@@ -495,7 +495,7 @@ plt.title('x Solution Values as a Function of b_1')
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig("figures/1-6_xi-by-b1.png")
+plt.savefig("figures/1_6_xi-by-b1.png")
 #plt.show()
 
 #==============================================================
