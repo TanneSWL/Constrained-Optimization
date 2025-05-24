@@ -7,7 +7,7 @@ import time
 # Problem 3.3
 
 # Load data from LP_Test.mat
-data = scipy.io.loadmat('sources/LP_Test.mat')
+data = scipy.io.loadmat('LP_Test.mat')
 
 U_d = data['U'].flatten().astype('float64')   # Bid prices
 print("U_d type", type(U_d))
