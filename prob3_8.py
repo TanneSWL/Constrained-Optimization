@@ -7,11 +7,10 @@ import matplotlib.pyplot as plt
 import time
 import random
 from prob3_5 import LPippd
-# Print commands
-print_single  = 0
-print_n10     = 1
-print_n100    = 1
-print_n1000   = 1
+# Print commands: 
+# Options: n = 5, 10, 100, 1000 
+# Errors can sometimes occur: if this occurs, just rerun
+print_n = 10
 #==============================================================
 # 3.8.1: Using LPippd on random problems of different sizes
 #==============================================================
@@ -64,7 +63,8 @@ g, A, b, x0, y0, s0 = random_lp_strict(5,0.5,0.15)
 x, mu, la, ResidualsArray, it_count, cpu_time = LPippd(g,A,b)
 sol = sp.optimize.linprog(c=g.flatten(),A_eq=A.T,b_eq=b.flatten(),method='highs')
 sp_x = np.array(sol.x) 
-if print_single == 1:
+if print_n == 5:
+    print("\n---------- Testing on 1 Problem of Size n = 5 ----------")
     print("Real x:",sp_x.flatten())
     print("Our x:",x.flatten())
     print("Euclidean Distance Between Solutions:",np.linalg.norm(x.flatten()-sp_x.flatten(),ord=2))
@@ -77,7 +77,7 @@ if print_single == 1:
 # This behavior occasionally happens even after setting the random seed.
 # If it errors, just run it again and it should work.
 random.seed(1)
-if print_n10 == 1:
+if print_n == 10:
     num=1000
     size = 10
     # Initialize vectors
@@ -110,7 +110,7 @@ if print_n10 == 1:
 # This behavior occasionally happens even after setting the random seed.
 # If it errors, just run it again and it should work.
 random.seed(1)
-if print_n100 == 1:
+if print_n == 100:
     num=500
     size = 100
     # Initialize vectors
@@ -144,7 +144,7 @@ if print_n100 == 1:
 # This behavior occasionally happens even after setting the random seed.
 # If it errors, just run it again and it should work.
 random.seed(1)
-if print_n1000 == 1:
+if print_n == 1000:
     num=5
     size = 1000
     # Initialize vectors

@@ -1,6 +1,6 @@
 % Exercise 2.4: Solve QP using quadprog and plot results
 
-load('QP_Test.mat');  % Provides H, g, C, dl, du, l, u
+load('sources/QP_Test.mat');  % Provides H, g, C, dl, du, l, u
 
 % Rename to match quadprogs syntax
 H = double(H);
