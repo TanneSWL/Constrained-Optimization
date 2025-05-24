@@ -266,25 +266,26 @@ def return_accuracy(solvers= ["LUdense","LUsparse","LDLdense","LDLsparse","Range
     return(error_row)
 
 #Here we define the different n values we want, and which solveres we want to use
-n_list = np.arange(5,201) #Even the strict QP generator struggles to make valid problems with n < 5
-solvers= ["LUdense","LUsparse","LDLdense","LDLsparse","Range","Null","LUsparse_smart"]
-# initialize the error matrix 
-x_err_mat = np.zeros((len(n_list),len(solvers)))
-#for every n, calculate the error with every solver.
-for i in range(len(n_list)):
-    x_err_mat[i,:] = return_accuracy(solvers,n_list[i])
-#plotting it all:
-plt.figure(figsize=(10, 6))
-for i in range(x_err_mat.shape[1]):
-    plt.plot(n_list, x_err_mat[:, i], label=solvers[i])
-plt.xlabel('n values')
-plt.ylabel('error values')
-plt.title('Euclidean Distance from Solution as a Function of n')
-plt.legend()
-plt.grid(True)
-plt.tight_layout()
-plt.savefig("figures/1_5_Error.png")
-#plt.show() #If you want the figure to pop up
+if __name__ == "__main__":
+    n_list = np.arange(5,201) #Even the strict QP generator struggles to make valid problems with n < 5
+    solvers= ["LUdense","LUsparse","LDLdense","LDLsparse","Range","Null","LUsparse_smart"]
+    # initialize the error matrix 
+    x_err_mat = np.zeros((len(n_list),len(solvers)))
+    #for every n, calculate the error with every solver.
+    for i in range(len(n_list)):
+        x_err_mat[i,:] = return_accuracy(solvers,n_list[i])
+    #plotting it all:
+    plt.figure(figsize=(10, 6))
+    for i in range(x_err_mat.shape[1]):
+        plt.plot(n_list, x_err_mat[:, i], label=solvers[i])
+    plt.xlabel('n values')
+    plt.ylabel('error values')
+    plt.title('Euclidean Distance from Solution as a Function of n')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig("figures/1_5_Error.png")
+    #plt.show() #If you want the figure to pop up
 
 #==============================================================
 # 1.5 Part 3: Checking CPU Time of Solvers
@@ -309,25 +310,26 @@ def return_cputime(solvers= ["LUdense","LUsparse","LDLdense","LDLsparse","Range"
     return(time_row)
 
 # Define which ns we want, and which solvers to use
-n_list = np.arange(5,251)
-solvers= ["LUdense","LUsparse","LDLdense","LDLsparse","Range","Null","LUsparse_smart"]
-# initialize the time matrix
-cputime_mat = np.zeros((len(n_list),len(solvers)))
-# for ever n, calculate the CPU time for each solver
-for i in range(len(n_list)):
-    cputime_mat[i,:] = return_cputime(solvers,n_list[i])
-#plotting it all:
-plt.figure(figsize=(10, 6))
-for i in range(cputime_mat.shape[1]):
-    plt.plot(n_list, cputime_mat[:, i], label=solvers[i])
-plt.xlabel('n values')
-plt.ylabel('cpu time ns')
-plt.title('Average CPU Time per Solver as Function of n')
-plt.legend()
-plt.grid(True)
-plt.tight_layout()
-plt.savefig("figures/1_5_Time-CPU.png")
-#plt.show() #If you want the figure to pop up
+if __name__ == "__main__":
+    n_list = np.arange(5,251)
+    solvers= ["LUdense","LUsparse","LDLdense","LDLsparse","Range","Null","LUsparse_smart"]
+    # initialize the time matrix
+    cputime_mat = np.zeros((len(n_list),len(solvers)))
+    # for ever n, calculate the CPU time for each solver
+    for i in range(len(n_list)):
+        cputime_mat[i,:] = return_cputime(solvers,n_list[i])
+    #plotting it all:
+    plt.figure(figsize=(10, 6))
+    for i in range(cputime_mat.shape[1]):
+        plt.plot(n_list, cputime_mat[:, i], label=solvers[i])
+    plt.xlabel('n values')
+    plt.ylabel('cpu time ns')
+    plt.title('Average CPU Time per Solver as Function of n')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig("figures/1_5_Time-CPU.png")
+    #plt.show() #If you want the figure to pop up
 
 #==============================================================
 # 1.6 Part 1: CasADi Baseline Check
@@ -386,57 +388,57 @@ def Casadi_EC_QP(Hin,gin,Ain,bin):
 # 1.6 Part 2: Problem Definiton and Solution
 #==============================================================
 #We are asked to solve:
+if __name__ == "__main__":
+    H = np.array([
+        [6.0000, 1.8600, 1.2400, 1.4800, -0.4600],
+        [1.8600, 4.0000, 0.4400, 1.1200, 0.5200],
+        [1.2400, 0.4400, 3.8000, 1.5600, -0.5400],
+        [1.4800, 1.1200, 1.5600, 7.2000, -1.1200],
+        [-0.4600, 0.5200, -0.5400, -1.1200, 7.8000]
+    ])
 
-H = np.array([
-    [6.0000, 1.8600, 1.2400, 1.4800, -0.4600],
-    [1.8600, 4.0000, 0.4400, 1.1200, 0.5200],
-    [1.2400, 0.4400, 3.8000, 1.5600, -0.5400],
-    [1.4800, 1.1200, 1.5600, 7.2000, -1.1200],
-    [-0.4600, 0.5200, -0.5400, -1.1200, 7.8000]
-])
+    g = np.array([
+        [-16.1000],
+        [-8.5000],
+        [-15.7000],
+        [-10.0200],
+        [-18.6800]
+    ])
 
-g = np.array([
-    [-16.1000],
-    [-8.5000],
-    [-15.7000],
-    [-10.0200],
-    [-18.6800]
-])
-
-A = np.array([
-    [16.1000, 1.0000],
-    [8.5000, 1.0000],
-    [15.7000, 1.0000],
-    [10.0200, 1.0000],
-    [18.6800, 1.0000]
-])
+    A = np.array([
+        [16.1000, 1.0000],
+        [8.5000, 1.0000],
+        [15.7000, 1.0000],
+        [10.0200, 1.0000],
+        [18.6800, 1.0000]
+    ])
 
 
-b = np.array([
-    [15],
-    [1]
-])
+    b = np.array([
+        [15],
+        [1]
+    ])
 
-# First we solve the test problem with one of our solvers:
-x, y = EqualityQPSolver(H,g,A,b,"LDLdense")
-Our_x = x.flatten()
-# Then we get CasADi's solution
-Cas_x = np.array(Casadi_EC_QP(H, g, A, b)).flatten()
-# Calcute the absolute difference between the elements of the two solutions
-AbsDif = np.abs(Our_x-Cas_x)
-# And the Euclidean distance between the two solutions
-EucDist = np.linalg.norm(Our_x - Cas_x, ord=2)
-EucDistVec = np.full(len(Our_x), np.nan)
-EucDistVec[0]= EucDist
-# Create a dataframe to store all of this in
-df = pd.DataFrame({
-    'Our Solution': Our_x,           # Our solution
-    'CasADi Solution': Cas_x,        # CasADi's solution
-    "Absolute_Difference": AbsDif,   # The absolute difference between each component of Our_x and Cas_x
-    'Euclidean_Distance': EucDistVec # This is the Euclidean distance between CasADi's solution and ours
-})
-# Save to CSV
-df.to_csv('figures/1_6_Solution-Comparison.csv')
+    # First we solve the test problem with one of our solvers:
+    x, y = EqualityQPSolver(H,g,A,b,"LDLdense")
+    Our_x = x.flatten()
+    # Then we get CasADi's solution
+    Cas_x = np.array(Casadi_EC_QP(H, g, A, b)).flatten()
+    # Calcute the absolute difference between the elements of the two solutions
+    AbsDif = np.abs(Our_x-Cas_x)
+    # And the Euclidean distance between the two solutions
+    EucDist = np.linalg.norm(Our_x - Cas_x, ord=2)
+    EucDistVec = np.full(len(Our_x), np.nan)
+    EucDistVec[0]= EucDist
+    # Create a dataframe to store all of this in
+    df = pd.DataFrame({
+        'Our Solution': Our_x,           # Our solution
+        'CasADi Solution': Cas_x,        # CasADi's solution
+        "Absolute_Difference": AbsDif,   # The absolute difference between each component of Our_x and Cas_x
+        'Euclidean_Distance': EucDistVec # This is the Euclidean distance between CasADi's solution and ours
+    })
+    # Save to CSV
+    df.to_csv('figures/1_6_Solution-Comparison.csv')
 
 #==============================================================
 # 1.6 Part 3: x_i as a Function of b_1
@@ -445,58 +447,59 @@ df.to_csv('figures/1_6_Solution-Comparison.csv')
 # How does |x_1 x_2 x_3 x_4 x_5|.T change as a function of b_1?
 #
 # Redefine the QP for consistency's sake:
-H = np.array([
-    [6.0000, 1.8600, 1.2400, 1.4800, -0.4600],
-    [1.8600, 4.0000, 0.4400, 1.1200, 0.5200],
-    [1.2400, 0.4400, 3.8000, 1.5600, -0.5400],
-    [1.4800, 1.1200, 1.5600, 7.2000, -1.1200],
-    [-0.4600, 0.5200, -0.5400, -1.1200, 7.8000]
-])
+if __name__ == "__main__":
+    H = np.array([
+        [6.0000, 1.8600, 1.2400, 1.4800, -0.4600],
+        [1.8600, 4.0000, 0.4400, 1.1200, 0.5200],
+        [1.2400, 0.4400, 3.8000, 1.5600, -0.5400],
+        [1.4800, 1.1200, 1.5600, 7.2000, -1.1200],
+        [-0.4600, 0.5200, -0.5400, -1.1200, 7.8000]
+    ])
 
-g = np.array([
-    [-16.1000],
-    [-8.5000],
-    [-15.7000],
-    [-10.0200],
-    [-18.6800]
-])
+    g = np.array([
+        [-16.1000],
+        [-8.5000],
+        [-15.7000],
+        [-10.0200],
+        [-18.6800]
+    ])
 
-A = np.array([
-    [16.1000, 1.0000],
-    [8.5000, 1.0000],
-    [15.7000, 1.0000],
-    [10.0200, 1.0000],
-    [18.6800, 1.0000]
-])
+    A = np.array([
+        [16.1000, 1.0000],
+        [8.5000, 1.0000],
+        [15.7000, 1.0000],
+        [10.0200, 1.0000],
+        [18.6800, 1.0000]
+    ])
 
 
-b = np.array([
-    [15],      #b_1 will be changed
-    [1]
-])
+    b = np.array([
+        [15],      #b_1 will be changed
+        [1]
+    ])
 
-# Define different b_1 values we want
-bn = 1000
-b1_space = np.linspace(8.50,18.68,bn)
-# Initialize a matrix to fit all of the solutions for x into
-xsol_matrix = np.zeros((bn,5))
-# Calculate x for each different b_1
-for b_id in range(len(b1_space)):
-    b[0,0]=b1_space[b_id]
-    xsol, _ = EqualityQPSolver(H,g,A,b,"LDLdense")
-    xsol_matrix[b_id,:] = xsol.flatten()
-# Plot it all up:
-plt.figure(figsize=(10, 6))
-for i in range(xsol_matrix.shape[1]):
-    plt.plot(b1_space, xsol_matrix[:, i], label=f'x_{i + 1}')
-plt.xlabel('b_1 value')
-plt.ylabel('x values')
-plt.title('x Solution Values as a Function of b_1')
-plt.legend()
-plt.grid(True)
-plt.tight_layout()
-plt.savefig("figures/1_6_xi-by-b1.png")
-#plt.show()
+    # Define different b_1 values we want
+    bn = 1000
+    b1_space = np.linspace(8.50,18.68,bn)
+    # Initialize a matrix to fit all of the solutions for x into
+    xsol_matrix = np.zeros((bn,5))
+    # Calculate x for each different b_1
+    for b_id in range(len(b1_space)):
+        b[0,0]=b1_space[b_id]
+        xsol, _ = EqualityQPSolver(H,g,A,b,"LDLdense")
+        xsol_matrix[b_id,:] = xsol.flatten()
+    # Plot it all up:
+    plt.figure(figsize=(10, 6))
+    for i in range(xsol_matrix.shape[1]):
+        plt.plot(b1_space, xsol_matrix[:, i], label=f'x_{i + 1}')
+    plt.xlabel('b_1 value')
+    plt.ylabel('x values')
+    plt.title('x Solution Values as a Function of b_1')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig("figures/1_6_xi_by_b1.png")
+    #plt.show()
 
 #==============================================================
 # End Problem 1

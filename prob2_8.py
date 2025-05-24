@@ -13,16 +13,17 @@ import time
 # Part 1: Preparing Our Data
 #==============================================================
 # Import from the file:
-QP_test = sp.io.loadmat('./sources/QP_Test.mat')
-#we import with the float datatype to prevent numerical problems further down the line
-QPt_C = (QP_test['C']).astype(float)
-QPt_H = (QP_test['H']).astype(float)
-QPt_dl = (QP_test['dl']).astype(float)
-QPt_du = (QP_test['du']).astype(float)
-QPt_l = (QP_test['l']).astype(float)
-QPt_u = (QP_test['u']).astype(float)
-QPt_g =(QP_test['g']).astype(float)
-QPt_n, _ = QPt_H.shape
+if __name__ == "__main__":
+    QP_test = sp.io.loadmat('./sources/QP_Test.mat')
+    #we import with the float datatype to prevent numerical problems further down the line
+    QPt_C = (QP_test['C']).astype(float)
+    QPt_H = (QP_test['H']).astype(float)
+    QPt_dl = (QP_test['dl']).astype(float)
+    QPt_du = (QP_test['du']).astype(float)
+    QPt_l = (QP_test['l']).astype(float)
+    QPt_u = (QP_test['u']).astype(float)
+    QPt_g =(QP_test['g']).astype(float)
+    QPt_n, _ = QPt_H.shape
 
 #==============================================================
 # The problem we were given was in the form:
@@ -253,72 +254,74 @@ def InequalityQPSolver(H,g,C,d,x_init= "NoEntry",z_init="NoEntry",s_init="NoEntr
 # Part 3: Baseline CasADi Solution
 #==============================================================
 # Preparing the variables
-H = QPt_H
-g = QPt_g
-A = QPt_C
-lbx_ = QPt_l
-ubx_ = QPt_u
-lbg_ = QPt_dl
-ubg_ = QPt_du
-nh = QPt_n
-# Define x as a symbolic variable
-x = ca.SX.sym('x', nh) 
-# min (0.5 * x.T @ H @ x) + (g.T @ x)
-objective = 0.5 * ca.dot(x, ca.mtimes(H, x)) + ca.dot(g, x)
-# Constraint: 
-constraint = ca.mtimes(A.T, x)
-# Define the QP in symbolic form
-qp = {
-    'x': x,      
-    'f': objective,
-    'g': constraint
-}
-# Create solver
-solver = ca.qpsol('S', 'qpoases', qp)
-# Call solver with bounds
-sol = solver(
-    lbx=lbx_, 
-    ubx=ubx_,  
-    lbg=lbg_,  
-    ubg=ubg_  
-)
-# getting the actual solution object
-Cas_X_Opt = sol['x']
+if __name__ == "__main__":
+    H = QPt_H
+    g = QPt_g
+    A = QPt_C
+    lbx_ = QPt_l
+    ubx_ = QPt_u
+    lbg_ = QPt_dl
+    ubg_ = QPt_du
+    nh = QPt_n
+    # Define x as a symbolic variable
+    x = ca.SX.sym('x', nh) 
+    # min (0.5 * x.T @ H @ x) + (g.T @ x)
+    objective = 0.5 * ca.dot(x, ca.mtimes(H, x)) + ca.dot(g, x)
+    # Constraint: 
+    constraint = ca.mtimes(A.T, x)
+    # Define the QP in symbolic form
+    qp = {
+        'x': x,      
+        'f': objective,
+        'g': constraint
+    }
+    # Create solver
+    solver = ca.qpsol('S', 'qpoases', qp)
+    # Call solver with bounds
+    sol = solver(
+        lbx=lbx_, 
+        ubx=ubx_,  
+        lbg=lbg_,  
+        ubg=ubg_  
+    )
+    # getting the actual solution object
+    Cas_X_Opt = sol['x']
 
-print(sol['x'])
+    print(sol['x'])
 
 #==============================================================
 # Part 4: Using Our Solver and Statistics
 #==============================================================
 # preparing our variables
-H = QPt_H
-g = QPt_g
-C, d = standard_NoA_IP(QPt_C,QPt_dl,QPt_du,QPt_l,QPt_u) #using our converer
-#using our function
-xout, zout, sout, iter, res, cpu_time = InequalityQPSolver(H,g,C,d,eps=10e-10)
-print("x:\n",xout.T)
-# Compare the Euclidean distance between CasADi's solution and ours:
-print("Euclidean Distance from Solution:",np.linalg.norm(np.array(Cas_X_Opt).flatten()-xout.flatten(),ord=2))
+if __name__ == "__main__":
+    H = QPt_H
+    g = QPt_g
+    C, d = standard_NoA_IP(QPt_C,QPt_dl,QPt_du,QPt_l,QPt_u) #using our converer
+    #using our function
+    xout, zout, sout, iter, res, cpu_time = InequalityQPSolver(H,g,C,d,eps=10e-10)
+    print("x:\n",xout.T)
+    # Compare the Euclidean distance between CasADi's solution and ours:
+    print("Euclidean Distance from Solution:",np.linalg.norm(np.array(Cas_X_Opt).flatten()-xout.flatten(),ord=2))
 
-res = np.array(res)
-res_names = ["rL", "rC", "mu"]
-plt.figure(figsize=(10, 6))
+    res = np.array(res)
+    res_names = ["rL", "rC", "mu"]
+    plt.figure(figsize=(10, 6))
 
-for i in range(res.shape[1]):
-    plt.plot(res[:, i], label=res_names[i])
+    for i in range(res.shape[1]):
+        plt.plot(res[:, i], label=res_names[i])
 
-plt.xlabel('Iteration Number')
-plt.ylabel('Residual L2 Norm')
-plt.title('InequalityQPSolver: L2 Norm of Residuals By Iteration')
-plt.yscale('log') 
-plt.legend()
-plt.grid(True)
-plt.tight_layout()
-#plt.savefig("figures/2_8_Residuals.png")
-plt.show()
+    plt.xlabel('Iteration Number')
+    plt.ylabel('Residual L2 Norm')
+    plt.title('InequalityQPSolver: L2 Norm of Residuals By Iteration')
+    plt.yscale('log') 
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    #plt.savefig("figures/2_8_Residuals.png")
+    plt.show()
 
-print("Number of Iterations:", iter)
-print("CPU Time in seconds:", cpu_time / 1000000000)
+    print("Number of Iterations:", iter)
+    print("CPU Time in seconds:", cpu_time / 1000000000)
 
 #==============================================================
 # End 2.8

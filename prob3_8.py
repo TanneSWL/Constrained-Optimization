@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 import time
 import random
 from prob3_5 import LPippd
-# Print commands: 
-# Options: n = 5, 10, 100, 1000 
+
+# print_n options: n = 5, 10, 100, 1000 
 # Errors can sometimes occur: if this occurs, just rerun
 print_n = 10
 #==============================================================
