@@ -10,11 +10,7 @@ import time
 data = scipy.io.loadmat('sources/LP_Test.mat')
 
 U_d = data['U'].flatten().astype('float64')   # Bid prices
-print("U_d type", type(U_d))
-print("U_d", U_d)
-
 C_g = data['C'].flatten()   # Offer proces
-print("C_g", C_g)
 
 P_d_max = data['Pd_max'].flatten()  # Maximum loads
 P_g_max = data['Pg_max'].flatten()  # Capacities
@@ -23,8 +19,6 @@ n_d = len(U_d)  # Number of demands
 n_g = len(C_g)  # Number of generators
 
 g = np.concatenate((-U_d, C_g))  
-print("Here are g", g)
-print("g:type",type(g[0],))
 bounds = [(0, P_d_max[i]) for i in range(n_d)] + [(0, P_g_max[i]) for i in range(n_g)]
 A = np.concatenate([np.ones(n_d), -np.ones(n_g)]).reshape(1, n_d + n_g) # Stored as row vector --> no need for transpose
 
