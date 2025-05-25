@@ -337,7 +337,7 @@ if __name__ == "__main__":
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
-    #plt.savefig("figures/3_5_Residuals.png")
+    plt.savefig("figures/3_5_Residuals.png")
     plt.show()
 
     print("Number of Iterations:", iter)
