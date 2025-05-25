@@ -172,3 +172,6 @@ if print_n == 1000:
     print("Mean LPippd CPU Time (Seconds):",np.mean(CPUTimeVec)/1000000000)
     print("Total CPU Time (Seconds):",total_t/1000000000)
 
+#==============================================================
+# End Problem 3.8
+#==============================================================
