@@ -159,7 +159,7 @@ def solve_with_casadi(H, g, A, bl, bu, l, u):
     return x_sol,x_l_sol
 
 if __name__ == "__main__":
-    QP_test = sp.io.loadmat(r'C:\Users\mjskj\OneDrive\Dokumenter\DTU MSc\2_semester\Constrained Optimisation\Exam Report\QP_Test.mat')
+    QP_test = sp.io.loadmat('sources/QP_Test.mat')
     #print(QP_test.keys())
 
     C = QP_test["C"]
