@@ -206,4 +206,4 @@ if __name__ == "__main__":
     print("Solution saved to 'matlab_x_solution.mat")
     # save to matlab data file:
     m_sol = {"x":xopt,"lambda":lambdaopt,"Wset": Wset}
-    sp.io.savemat("figures/matlab_x_solution.mat", m_sol)
+    sp.io.savemat("figures/2_6_matlab_x_solution.mat", m_sol)

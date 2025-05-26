@@ -222,7 +222,7 @@ if __name__ == '__main__':
     print("Objective value (test problem) = ",-LP_g@x)
     print("market clearing price: ",-µ[0])
     print("x saved in 'x_simplex_solution.txt'")
-    np.savetxt('figures/x_simplex_solution.txt', x, delimiter=',',header="optimal x form the simplex algorithm")  
+    np.savetxt('figures/3_7_x_simplex_solution.txt', x, delimiter=',',header="optimal x form the simplex algorithm")  
 
 
 
