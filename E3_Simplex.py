@@ -170,7 +170,7 @@ def Find_initial_point(A,b):
 
 # remember to change loadmat
 if __name__ == '__main__':
-    LP_test = sp.io.loadmat(r'C:\Users\mjskj\OneDrive\Dokumenter\DTU MSc\2_semester\Constrained Optimisation\Exam Report\LP_Test.mat')
+    LP_test = sp.io.loadmat('./sources/LP_test.mat')
     # print(LP_test.keys())
     
     LP_U = LP_test["U"]
